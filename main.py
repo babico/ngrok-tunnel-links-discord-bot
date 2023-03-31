@@ -20,10 +20,10 @@ def messageParser(tunnelName, tunnelUrl, msg):
     if tunnelName != "" and message.find("%tunnel_url%") != -1:
         message = message.replace("%tunnel_url%", tunnelUrl)
     
-    if tunnelUrl != "" and message.find("%ngrok_host%") != -1:
-        message = message.replace("%ngrok_host%", tunnelUrl.split("//")[1].split(":")[0])
-    if tunnelUrl != "" and message.find("%ngrok_port%") != -1:
-        message = message.replace("%ngrok_port%", tunnelUrl.split("//")[1].split(":")[1])
+    if tunnelUrl != "" and message.find("%host%") != -1:
+        message = message.replace("%host%", tunnelUrl.split("//")[1].split(":")[0])
+    if tunnelUrl != "" and message.find("%port%") != -1:
+        message = message.replace("%port%", tunnelUrl.split("//")[1].split(":")[1])
 
     return message
 
@@ -40,17 +40,18 @@ def dictNgrokLinks():
 
 def discordConnect():
     client = discord.Client(intents=discord.Intents.default())
-    print(f'\n{client.user} has connected to Discord!')
-
+    
     @client.event
     async def on_ready():
         ngrokLinks = dictNgrokLinks()
         for channel_id in config.DISCORD_CHANNEL_IDS_DATA:
             channel = client.get_channel(channel_id)
+            print(f'\n{client.user} has connected to Discord!')
             print(f'sending links to {channel.name, channel.id, channel.guild.name}')
-            
+
             print(f'deleting last {len(ngrokLinks.keys())} messages')
-            if not config.TEST: await channel.purge(limit=len(ngrokLinks.keys()))
+            if not config.TEST:
+                await channel.purge(limit=len(ngrokLinks.keys()))
 
             for tunnelName in list(ngrokLinks.keys()):
                 tunnelUrl = ngrokLinks[tunnelName]
@@ -58,9 +59,11 @@ def discordConnect():
                     if tunnelName.find(keys) != -1 or keys == "all":
                         message = messageParser(tunnelName, tunnelUrl, config.DISCORD_CHANNEL_IDS_DATA[channel_id][keys])
                         print(message)
-                        if not TEST: await channel.send(f"{message}")
+                        if not config.TEST:
+                            await channel.send(message)
         print("\n\nBot Closed")
         await client.close()
+
     client.run(config.DISCORD_BOT_TOKEN)
 
 
