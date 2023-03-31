@@ -20,10 +20,10 @@ def messageParser(tunnelName, tunnelUrl, msg):
     if tunnelName != "" and message.find("%tunnel_url%") != -1:
         message = message.replace("%tunnel_url%", tunnelUrl)
     
-    if tunnelUrl != "" and message.find("%host%") != -1:
-        message = message.replace("%host%", tunnelUrl.split("//")[1].split(":")[0])
-    if tunnelUrl != "" and message.find("%port%") != -1:
-        message = message.replace("%port%", tunnelUrl.split("//")[1].split(":")[1])
+    if tunnelUrl != "" and message.find("%ngrok_host%") != -1:
+        message = message.replace("%ngrok_host%", tunnelUrl.split("//")[1].split(":")[0])
+    if tunnelUrl != "" and message.find("%ngrok_port%") != -1:
+        message = message.replace("%ngrok_port%", tunnelUrl.split("//")[1].split(":")[1])
 
     return message
 
