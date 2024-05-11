@@ -29,11 +29,11 @@ tunnel name: %tunnel_name%
 # tunnel messages of each channel
 DISCORD_CHANNEL_IDS_DATA = {
     749593882739736577: {
-        "all": "", # no massage
+        "all": "", # no message
     },
     1050897563907268648: {
-        "babico": "",  # no massage
-        "homeserver": "" # no massage
+        "babico": "",  # no message
+        "homeserver": "" # no message
     },
     1085885700924256306: {
         "homeserver-ssh": "usage:\n\t\t\t`ssh <username>@%ngrok_host% -p %ngrok_port%`"
